@@ -1,3 +1,4 @@
+
 *** Settings ***
 Documentation     A test suite with a single test for valid login.
 ...
@@ -6,14 +7,25 @@ Documentation     A test suite with a single test for valid login.
 Resource          resource.robot
 
 *** Test Cases ***
-Valid Login
+
+
+Logout
+    [Setup]  User logs into the portal  demo  mode
     [Tags]  Application_Name:WebDemoOfTheMillenium  Version:1.0 (static)
+    User logs out of the portal
+    [Teardown]    Close Browser
+
+*** Keywords ***
+User logs into the portal
+
+    [Arguments]  ${userName}  ${password}
     Open Browser To Login Page
-    Input Username    ${VALID USER}
-    Input Password    ${VALID PASSWORD}
+    Input Username    ${userName}
+    Input Password    ${password}
     Submit Credentials
     Welcome Page Should Be Open
 
-    [Teardown]    Close Browser
+User logs out of the portal
+    Click element  link=logout
 
 
